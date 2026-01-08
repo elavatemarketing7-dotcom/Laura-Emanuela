@@ -42,21 +42,34 @@ const App: React.FC = () => {
       {/* Landing Page always in background after initial choice to allow transitions */}
       {view !== FlowState.CHOICE && <LandingPage />}
 
-      {/* 1. INITIAL CHOICE OVERLAY */}
+      {/* 1. INITIAL CHOICE OVERLAY WITH BACKGROUND */}
       {view === FlowState.CHOICE && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xl">
-          <div className="w-full max-w-sm overflow-hidden rounded-[40px] shadow-2xl bg-white flex flex-col items-center animate-in fade-in zoom-in duration-700 relative border border-white/20">
-            <div className="absolute top-0 left-0 w-full h-32 bg-stone-50 -z-10"></div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* BACKGROUND LAYER */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={ASSETS.expert1} 
+              className="w-full h-full object-cover object-top scale-110 animate-ken-burns" 
+              alt="Fundo Dra Laura" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-900/40 via-stone-900/80 to-stone-900"></div>
+            <div className="absolute inset-0 backdrop-blur-[2px]"></div>
+          </div>
+
+          {/* CONTENT CARD */}
+          <div className="w-full max-w-sm overflow-hidden rounded-[40px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] bg-white/95 backdrop-blur-md flex flex-col items-center animate-in fade-in zoom-in duration-1000 relative border border-white/20">
+            <div className="absolute top-0 left-0 w-full h-32 bg-stone-50/50 -z-10"></div>
             <div className="mt-10 relative">
-              <div className="absolute -inset-4 bg-gold-gradient blur-2xl opacity-20 rounded-full animate-pulse"></div>
-              <div className="w-40 h-40 rounded-full border-4 border-white shadow-xl overflow-hidden relative">
+              <div className="absolute -inset-4 bg-gold-gradient blur-2xl opacity-30 rounded-full animate-pulse"></div>
+              <div className="w-36 h-36 rounded-full border-4 border-white shadow-xl overflow-hidden relative">
                 <img 
-                  src={ASSETS.expert1} 
+                  src={ASSETS.expert2} 
                   className="w-full h-full object-cover scale-110" 
-                  alt="Dra Laura Emanuela" 
+                  alt="Dra Laura Emanuela Profile" 
                 />
               </div>
             </div>
+            
             <div className="p-8 text-center space-y-6 pt-6">
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold text-stone-800 tracking-tight leading-tight">
@@ -65,9 +78,11 @@ const App: React.FC = () => {
                 </h2>
                 <div className="h-px w-12 bg-gold-gradient mx-auto mt-2"></div>
               </div>
+              
               <p className="text-stone-500 text-sm leading-relaxed px-4">
                 Uma experiência exclusiva pensada para realçar sua essência com naturalidade.
               </p>
+
               <div className="space-y-3 pt-2 w-full">
                 <button 
                   onClick={handleStartQuiz}
@@ -75,6 +90,7 @@ const App: React.FC = () => {
                 >
                   Iniciar Avaliação Personalizada
                 </button>
+                
                 <a 
                   href={EXPERT.whatsapp}
                   target="_blank"
@@ -84,22 +100,33 @@ const App: React.FC = () => {
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.512-2.96-2.626-.087-.114-.708-.941-.708-1.795 0-.855.448-1.273.607-1.441.159-.168.348-.21.463-.21s.231.001.332.005c.101.004.238-.039.373.287.144.349.491 1.2.535 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289-.087.101-.183.226-.26.304-.087.087-.177.182-.076.354.101.173.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.144.39-.087s1.011.477 1.184.564c.173.087.289.129.332.202.043.073.043.423-.101.827z"/></svg>
                   Chamar no WhatsApp
                 </a>
+                
                 <button 
                   onClick={handleGoDirectToSite}
-                  className="w-full py-5 rounded-2xl border border-stone-100 text-stone-400 font-semibold text-xs hover:bg-stone-50 transition-all uppercase tracking-widest"
+                  className="w-full py-4 rounded-2xl border border-stone-100 text-stone-400 font-semibold text-[10px] hover:bg-stone-50 transition-all uppercase tracking-[0.2em]"
                 >
                   Pular e acessar site
                 </button>
               </div>
             </div>
           </div>
+          
+          <style>{`
+            @keyframes ken-burns {
+              0% { transform: scale(1); }
+              100% { transform: scale(1.15); }
+            }
+            .animate-ken-burns {
+              animation: ken-burns 20s ease-in-out infinite alternate;
+            }
+          `}</style>
         </div>
       )}
 
       {/* 2. COMPACT QUIZ OVERLAY */}
       {view === FlowState.QUIZ && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-md overflow-hidden">
-          <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-[40px] shadow-2xl border border-white/40 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-10 duration-500">
+          <div className="w-full max-w-md bg-white/95 backdrop-blur-xl rounded-[40px] shadow-2xl border border-white/40 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-10 duration-500">
             <Quiz onFinish={handleFinishQuiz} onBack={() => setView(FlowState.CHOICE)} />
           </div>
         </div>
